@@ -1,4 +1,8 @@
 config.cfg
+html/algohist.png
+html/algoversionma.png
+html/diffhist.png
+html/versionma.png
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
