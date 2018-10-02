@@ -220,6 +220,7 @@ class myrstat(object):
         d2 = self.get_moving_average(self.bip9bits,2,bip9=True)
         d3 = self.get_moving_average(self.bip9bits,3,bip9=True)
         d5 = self.get_moving_average(self.bip9bits,5,bip9=True)
+        d6 = self.get_moving_average(self.bip9bits,6,bip9=True)
         # create an indicator line:
         di = []
         dibip = []
@@ -242,6 +243,8 @@ class myrstat(object):
         plt.plot(h,d3,'-',color='cyan',label='legbit Blocks',
             linewidth=self.lw)
         plt.plot(h,d5,'-',color='red',label='reservealgo Blocks',
+            linewidth=self.lw)
+        plt.plot(h,d6,'-',color='magenta',label='longblocks Blocks',
             linewidth=self.lw)
         plt.plot(h,di,'-.',color='green',label='BIP9 Activation Threshold',
             linewidth=self.lw)
@@ -304,6 +307,8 @@ class myrstat(object):
                     bip9=True)
             d5 = self.get_moving_average_for_algo(algo,self.bip9bits,5,
                     bip9=True)
+            d6 = self.get_moving_average_for_algo(algo,self.bip9bits,6,
+                    bip9=True)
             h = self.get_data_for_algo(algo,self.heights)
             plt.subplot(len(self.algolist),1,i+1)
             #plt.plot(h,dm1,'-',color='red',label='Legacy Blocks',
@@ -315,6 +320,8 @@ class myrstat(object):
             plt.plot(h,d3,'-',color='cyan',label='legbit Blocks',
                 linewidth=self.lw)
             plt.plot(h,d5,'-',color='red',label='reservealgo Blocks',
+                linewidth=self.lw)
+            plt.plot(h,d6,'-',color='magenta',label='longblocks Blocks',
                 linewidth=self.lw)
             plt.hold('on')
             plt.grid('on')
