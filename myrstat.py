@@ -49,8 +49,8 @@ class myrstat(object):
 
     blocklist = []
 
-    algolist = ['sha256d','scrypt','groestl','skein','yescrypt']
-    colorlist = ['#8ecf1d','#2db6db','#d7370c','#8f3c85','#ffe21b']
+    algolist = ['sha256d','scrypt','groestl','skein','yescrypt','argon2d']
+    colorlist = ['#8ecf1d','#2db6db','#d7370c','#000000','#ffe21b','#8f3c85']
     figsize=(8,6)
     lw=2.0
 
@@ -134,7 +134,7 @@ class myrstat(object):
 
     def getdata(self):
         """Get data via rpc."""
-        info = self.rpc.getinfo()
+        info = self.rpc.getblockchaininfo()
         block_height = info['blocks']
         block_min = block_height - self.block_domain - self.block_window
         for bh in xrange(block_min,block_height+1,1):
@@ -221,6 +221,7 @@ class myrstat(object):
         d3 = self.get_moving_average(self.bip9bits,3,bip9=True)
         d5 = self.get_moving_average(self.bip9bits,5,bip9=True)
         d6 = self.get_moving_average(self.bip9bits,6,bip9=True)
+        d7 = self.get_moving_average(self.bip9bits,7,bip9=True)
         # create an indicator line:
         di = []
         dibip = []
@@ -242,9 +243,11 @@ class myrstat(object):
         #    linewidth=self.lw)
         plt.plot(h,d3,'-',color='cyan',label='legbit Blocks',
             linewidth=self.lw)
-        plt.plot(h,d5,'-',color='red',label='reservealgo Blocks',
-            linewidth=self.lw)
-        plt.plot(h,d6,'-',color='magenta',label='longblocks Blocks',
+        #plt.plot(h,d5,'-',color='red',label='reservealgo Blocks',
+        #    linewidth=self.lw)
+        #plt.plot(h,d6,'-',color='magenta',label='longblocks Blocks',
+        #    linewidth=self.lw)
+        plt.plot(h,d7,'-',color='blue',label='argon2d Blocks',
             linewidth=self.lw)
         plt.plot(h,di,'-.',color='green',label='BIP9 Activation Threshold',
             linewidth=self.lw)
@@ -309,6 +312,8 @@ class myrstat(object):
                     bip9=True)
             d6 = self.get_moving_average_for_algo(algo,self.bip9bits,6,
                     bip9=True)
+            d7 = self.get_moving_average_for_algo(algo,self.bip9bits,7,
+                    bip9=True)
             h = self.get_data_for_algo(algo,self.heights)
             plt.subplot(len(self.algolist),1,i+1)
             #plt.plot(h,dm1,'-',color='red',label='Legacy Blocks',
@@ -319,9 +324,11 @@ class myrstat(object):
             #    linewidth=self.lw)
             plt.plot(h,d3,'-',color='cyan',label='legbit Blocks',
                 linewidth=self.lw)
-            plt.plot(h,d5,'-',color='red',label='reservealgo Blocks',
-                linewidth=self.lw)
-            plt.plot(h,d6,'-',color='magenta',label='longblocks Blocks',
+            #plt.plot(h,d5,'-',color='red',label='reservealgo Blocks',
+            #    linewidth=self.lw)
+            #plt.plot(h,d6,'-',color='magenta',label='longblocks Blocks',
+            #    linewidth=self.lw)
+            plt.plot(h,d7,'-',color='blue',label='argon2d Blocks',
                 linewidth=self.lw)
             plt.hold('on')
             plt.grid('on')
