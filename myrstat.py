@@ -49,8 +49,8 @@ class myrstat(object):
 
     blocklist = []
 
-    algolist = ['sha256d','scrypt','groestl','skein','yescrypt','argon2d']
-    colorlist = ['#8ecf1d','#2db6db','#d7370c','#000000','#ffe21b','#8f3c85']
+    algolist = ['sha256d','scrypt','groestl','yescrypt','argon2d']
+    colorlist = ['#8ecf1d','#2db6db','#d7370c','#ffe21b','#8f3c85']
     figsize=(8,6)
     lw=2.0
 
