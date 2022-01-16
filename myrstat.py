@@ -22,7 +22,7 @@ myrstat: plotting Myriad data.
 
 import matplotlib
 matplotlib.use('Agg')
-import ConfigParser
+import configparser
 from authproxy import AuthServiceProxy
 from pylab import figure,legend,savefig
 from matplotlib import ticker
@@ -56,7 +56,7 @@ class myrstat(object):
 
     def __init__(self):
         # load config:
-        Config = ConfigParser.ConfigParser(allow_no_value = True)
+        Config = configparser.ConfigParser(allow_no_value = True)
         Config.read('config.cfg')
         network = Config.get('Global','network')
         rpcusername = Config.get(network,'rpcusername')
@@ -137,7 +137,7 @@ class myrstat(object):
         info = self.rpc.getblockchaininfo()
         block_height = info['blocks']
         block_min = block_height - self.block_domain - self.block_window
-        for bh in xrange(block_min,block_height+1,1):
+        for bh in range(block_min,block_height+1,1):
             bhash = self.rpc.getblockhash(bh)
             block = self.rpc.getblock(bhash)
             self.algos.append(block['pow_algo'])
@@ -165,24 +165,24 @@ class myrstat(object):
     def moving_average_pct(self,raw,tgt):
         """generate a subset of data based on looking back by block_window."""
         d = []
-        for i in xrange(self.block_window,
+        for i in range(self.block_window,
             self.block_domain+self.block_window+1):
             count=0.
-            for k in xrange(0,self.block_window):
+            for k in range(0,self.block_window):
                 if (raw[i-k]==tgt): count+=1
             d.append(count/self.block_window*100.)
         return d
 
     def getblockwindowlist(self):
         """Gets the block list for plotting."""
-        for i in xrange(self.block_window,
+        for i in range(self.block_window,
             self.block_domain+self.block_window+1):
             self.blocklist.append(self.heights[i])
 
     def get_data_for_algo(self,algo,dlist,start=0):
         """Get the list corresponding to the algo."""
         d = []
-        for i in xrange(start,self.block_domain+self.block_window+1):
+        for i in range(start,self.block_domain+self.block_window+1):
             if (self.algos[i]==algo):
                 d.append(dlist[i])
         return d
@@ -194,7 +194,6 @@ class myrstat(object):
             d = self.moving_average_pct(self.algos,algo)
             plt.plot(self.blocklist,d,'-',color=self.colorlist[i],label=algo,
                 linewidth=self.lw)
-            plt.hold('on')
             plt.grid('on')
             ax = plt.gca()
             ax.get_xaxis().set_minor_locator(ticker.AutoMinorLocator())
@@ -253,7 +252,6 @@ class myrstat(object):
             linewidth=self.lw)
         plt.plot(bw_x,bw_y,'-.',color='orange',label='Block Window',
             linewidth=self.lw)
-        plt.hold('on')
         plt.grid('on')
         ax = plt.gca()
         ax.get_xaxis().set_minor_locator(ticker.AutoMinorLocator())
@@ -279,7 +277,6 @@ class myrstat(object):
             plt.subplot(len(self.algolist),1,i+1)
             plt.plot(h,d,'-',color=self.colorlist[i],label=algo,
                 linewidth=self.lw)
-            plt.hold('on')
             plt.grid('on')
             ax = plt.gca()
             ax.get_xaxis().set_minor_locator(ticker.AutoMinorLocator())
@@ -330,7 +327,6 @@ class myrstat(object):
             #    linewidth=self.lw)
             plt.plot(h,d7,'-',color='blue',label='argon2d Blocks',
                 linewidth=self.lw)
-            plt.hold('on')
             plt.grid('on')
             ax = plt.gca()
             ax.get_xaxis().set_minor_locator(ticker.AutoMinorLocator())
